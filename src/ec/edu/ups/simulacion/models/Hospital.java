@@ -31,6 +31,9 @@ public class Hospital extends Model {
     public List<Integer> sanos;
     public List<Integer> noAtendidos;
     public List<Integer> fallecidos;
+    public  List<String> tipo;
+
+    public List<Integer> tests;
 
     public Hospital(Model model, double mediaLlegadas, double mediaEstancia, int numeroTests, int numeroCamas,
                     int numeroEnfermeras, int numeroDoctores, int numeroRespiradores, boolean reporte, boolean traza) {
@@ -49,6 +52,9 @@ public class Hospital extends Model {
         this.totalPersonas = new ArrayList<>();
         this.noAtendidos = new ArrayList<>();
         this.fallecidos = new ArrayList<>();
+        this.tests = new ArrayList<>();
+        this.tipo = new ArrayList<>();
+
     }
 
     @Override
@@ -72,7 +78,6 @@ public class Hospital extends Model {
     }
 
     public boolean disponibilidadTest() {
-
         return (this.numeroTests > 0);
     }
 
@@ -92,6 +97,14 @@ public class Hospital extends Model {
         return (this.numeroRespiradores > 0);
     }
 
+    public void asignarRespirador() {
+        this.numeroRespiradores -= 1;
+    }
+
+    public void liberarRespirador() {
+        this.numeroRespiradores += 1;
+    }
+
     public void asignarCama() {
         this.camas -= 1;
     }
@@ -106,6 +119,8 @@ public class Hospital extends Model {
         Random rnd = new Random();
         boolean estado = false;
         if (disponibilidadTest()) {
+            tipos();
+            this.tests.add(this.numeroTests);
             int probabilidad = ((int)(rnd.nextDouble() * 10 + 0));
             if (probabilidad >= 6 ) {
                 msj("La persona presenta Covid-19");
@@ -133,11 +148,37 @@ public class Hospital extends Model {
                 msj("Paciente regresa a su casa por falta de tests");
                 this.noAtendidos.add(1);
             }
+            generarTest();
         }
 
         return estado;
     }
 
+    private void generarTest() {
+        Random rnd = new Random();
+        int probabilidad = ((int)(rnd.nextDouble() * 10 + 0));
+        if (probabilidad >= 7) {
+            sendTraceNote("El hospital ha recibido nuevos tests, cantidad: "+(probabilidad*5));
+            this.numeroTests = probabilidad * 5;
+            this.tests.add(this.numeroTests);
+        } else {
+            sendTraceNote("El hospital continua sin tests");
+        }
+
+    }
+
+    public void tipos(){
+        Random rnd = new Random();
+        int probabilidad = ((int)(rnd.nextDouble() * 10 + 0));
+        if(probabilidad < 5) {
+            tipo.add("Mujer");
+        }
+        if(probabilidad >= 5 && probabilidad <8) {
+            tipo.add("Hombre");
+        } else if (probabilidad >= 8) {
+            tipo.add("Niños");
+        }
+    }
 
     public void msj(String msj) {
         System.out.println(msj);

@@ -6,6 +6,8 @@ import desmoj.core.simulator.SimProcess;
 import desmoj.core.simulator.TimeInstant;
 import desmoj.core.simulator.TimeSpan;
 
+import java.util.Random;
+
 public class Paciente extends SimProcess {
 
     private Hospital modelo;
@@ -31,12 +33,66 @@ public class Paciente extends SimProcess {
                     modelo.colaPacientes.remove(paciente);
                     paciente.activateAfter(this);
                 }
-                modelo.sanos.add(1);
-                sendTraceNote("El paciente: "+this.id+ " es dado de alta");
+                //passivate();
+                delay(150);
+                if (validarEstado()) {
+                    modelo.sanos.add(1);
+                    sendTraceNote("El paciente: "+this.id+ " es dado de alta");
+                } else {
+                    sendTraceNote("El paciente: "+this.id+ " entra en etapa de neumonia");
+                    if (modelo.disponibilidadRespiradores()) {
+                        sendTraceNote("Al paciente: "+this.id+ " se le asigna un respirador");
+                        modelo.asignarRespirador();
+                        //passivate();
+                        delay(100);
+                        if (validarEstadoFinal()) {
+                            sendTraceNote("Al paciente: "+this.id+ " se cura y se va");
+                            modelo.sanos.add(1);
+                        } else {
+                            sendTraceNote("Al paciente: "+this.id+ " no se cura y muere");
+                            modelo.fallecidos.add(1);
+                        }
+                    } else {
+                        sendTraceNote("El paciente: "+this.id+ " muere por falta de respiradores");
+                        modelo.fallecidos.add(1);
+                    }
+                    modelo.liberarRespirador();
+                }
+
             } else {
                 modelo.colaPacientes.insert(this);
                 passivate();
             }
+        }
+    }
+
+    private void delay(long tiempo){
+        System.out.println("jajajajajaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        try {
+            sendTraceNote("Han pasado n dias y se reevaluara al paciente "+this.id);
+            Thread.sleep(tiempo);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean validarEstado() {
+        Random rnd = new Random();
+        int probabilidad = ((int)(rnd.nextDouble() * 10 + 0));
+        if (probabilidad >= 4) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean validarEstadoFinal() {
+        Random rnd = new Random();
+        int probabilidad = ((int)(rnd.nextDouble() * 10 + 0));
+        if (probabilidad >= 6) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
