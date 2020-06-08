@@ -4,6 +4,8 @@ import desmoj.core.simulator.Experiment;
 import desmoj.core.simulator.TimeInstant;
 import ec.edu.ups.simulacion.models.Hospital;
 import ec.edu.ups.simulacion.view.GraficaPacientes;
+import ec.edu.ups.simulacion.view.GraficaPersonas;
+import ec.edu.ups.simulacion.view.GraficaTests;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -52,6 +54,14 @@ public class Main {
         GraficaPacientes gp = new GraficaPacientes("Total muestras", hospital.tipo);
         gp.pack();
         gp.setVisible(true);
+
+        GraficaTests gt = new GraficaTests("Test", hospital.tests);
+        gt.pack();
+        gt.setVisible(true);
+
+        GraficaPersonas gr = new GraficaPersonas("Analisis Total", hospital.totalPersonas, hospital.fallecidos, hospital.sanos, hospital.noAtendidos, hospital.contagiados);
+        gr.pack();
+        gr.setVisible(true);
 
     }
 }
