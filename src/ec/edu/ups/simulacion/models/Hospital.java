@@ -59,7 +59,9 @@ public class Hospital extends Model {
 
     @Override
     public void init() {
+//       cola
         colaPacientes = new ProcessQueue(this, "Sala de espera", true, true);
+
         llegadas = new ContDistExponential(this, "Llegada de nuevos pacientes", mediaLlegadas, true, true);
         estancias = new ContDistExponential(this, "Pacientes en estancia", mediaEstancia, true, true);
         camas = numeroCamas;

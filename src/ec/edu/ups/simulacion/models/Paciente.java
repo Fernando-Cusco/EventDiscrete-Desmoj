@@ -67,7 +67,6 @@ public class Paciente extends SimProcess {
     }
 
     private void delay(long tiempo){
-        System.out.println("jajajajajaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         try {
             sendTraceNote("Han pasado n dias y se reevaluara al paciente "+this.id);
             Thread.sleep(tiempo);
