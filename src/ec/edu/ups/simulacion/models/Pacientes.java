@@ -5,7 +5,7 @@ import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.TimeInstant;
 import desmoj.core.simulator.TimeSpan;
-
+//Proporciona la clase para eventos definidos por el usuario para cambiar el estado del modelo en un punto distinto en el tiempo de simulación.
 public class Pacientes extends ExternalEvent {
 
     private int cantidad;
@@ -14,7 +14,7 @@ public class Pacientes extends ExternalEvent {
         super(model, "´Pacientes", b);
         cantidad = 0;
     }
-
+//    implemente este método para expresar la semántica de este evento externo.
     @Override
     public void eventRoutine() throws SuspendExecution {
         cantidad += 1;

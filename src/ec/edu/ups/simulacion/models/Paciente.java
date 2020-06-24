@@ -7,7 +7,7 @@ import desmoj.core.simulator.TimeInstant;
 import desmoj.core.simulator.TimeSpan;
 
 import java.util.Random;
-
+// representa entidades con un ciclo de vida activo propio
 public class Paciente extends SimProcess {
 
     private Hospital modelo;
