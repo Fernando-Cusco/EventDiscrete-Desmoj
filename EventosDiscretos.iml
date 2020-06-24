@@ -10,7 +10,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/librerias/desmoj-2.5.1e-bin.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../Librerias/jfreechart-1.5.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -19,7 +19,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/librerias/jfreechart-1.0.19/lib/jcommon-1.0.23.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../Librerias/desmoj-2.5.1e-bin.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -28,7 +28,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/librerias/jfreechart-1.0.19/lib/jfreechart-1.0.19.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../Librerias/jcommon-1.0.23/jcommon-1.0.23.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
