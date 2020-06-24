@@ -18,7 +18,7 @@ public class Paciente extends SimProcess {
         this.id = id;
         modelo = (Hospital) model;
     }
-
+    ///Pasiva un SimProcess durante el período de tiempo muestreado de la distribución proporcionada al método
     @Override
     public void lifeCycle() throws SuspendExecution {
         sendTraceNote("El paciente: "+this.id+ "llega al hospital");
@@ -34,17 +34,20 @@ public class Paciente extends SimProcess {
                     paciente.activateAfter(this);
                 }
                 //passivate();
-                delay(150);
+                delay(10);
                 if (validarEstado()) {
                     modelo.sanos.add(1);
                     sendTraceNote("El paciente: "+this.id+ " es dado de alta");
                 } else {
                     sendTraceNote("El paciente: "+this.id+ " entra en etapa de neumonia");
                     if (modelo.disponibilidadRespiradores()) {
-                        sendTraceNote("Al paciente: "+this.id+ " se le asigna un respirador");
                         modelo.asignarRespirador();
+
+                        sendTraceNote("Al paciente: "+this.id+ " se le asigna un respirador");
+
                         //passivate();
-                        delay(100);
+                        delay(10);
+                        modelo.liberarRespirador();
                         if (validarEstadoFinal()) {
                             sendTraceNote("Al paciente: "+this.id+ " se cura y se va");
                             modelo.sanos.add(1);

@@ -5,6 +5,7 @@ import desmoj.core.simulator.Model;
 import desmoj.core.simulator.ProcessQueue;
 import desmoj.core.simulator.TimeInstant;
 import desmoj.core.simulator.TimeSpan;
+
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +32,12 @@ public class Hospital extends Model {
     public List<Integer> sanos;
     public List<Integer> noAtendidos;
     public List<Integer> fallecidos;
-    public  List<String> tipo;
+    public List<String> tipo;
+    public List<Integer> respiradores;
 
     public List<Integer> tests;
 
-//    Construye un modelo
+    //    Construye un modelo
     public Hospital(Model model, double mediaLlegadas, double mediaEstancia, int numeroTests, int numeroCamas,
                     int numeroEnfermeras, int numeroDoctores, int numeroRespiradores, boolean reporte, boolean traza) {
         super(model, "Hospital", reporte, traza);
@@ -55,10 +57,11 @@ public class Hospital extends Model {
         this.fallecidos = new ArrayList<>();
         this.tests = new ArrayList<>();
         this.tipo = new ArrayList<>();
+        this.respiradores = new ArrayList<>();
 
     }
 
-//    Implemente este método para realizar el trabajo de inicialización de su modelo.
+    //    Implemente este método para realizar el trabajo de inicialización de su modelo.
     @Override
     public void init() {
 //       cola
@@ -69,12 +72,14 @@ public class Hospital extends Model {
         camas = numeroCamas;
 
     }
-//    Debe devolver la descripción del modelo
+
+    //    Debe devolver la descripción del modelo
     @Override
     public String description() {
         return "Hospital Guayas";
     }
-//    Implemente este método para programar las entidades
+
+    //    Implemente este método para programar las entidades
     @Override
     public void doInitialSchedules() {
         Pacientes pacientes = new Pacientes(this, true);
@@ -103,6 +108,7 @@ public class Hospital extends Model {
 
     public void asignarRespirador() {
         this.numeroRespiradores -= 1;
+
     }
 
     public void liberarRespirador() {
@@ -125,8 +131,8 @@ public class Hospital extends Model {
         if (disponibilidadTest()) {
             tipos();
             this.tests.add(this.numeroTests);
-            int probabilidad = ((int)(rnd.nextDouble() * 10 + 0));
-            if (probabilidad >= 6 ) {
+            int probabilidad = ((int) (rnd.nextDouble() * 10 + 0));
+            if (probabilidad >= 6) {
                 msj("La persona presenta Covid-19");
                 sendTraceNote("La persona presenta Covid-19");
                 this.contagiados.add(1);
@@ -138,11 +144,11 @@ public class Hospital extends Model {
                 estado = false;
             }
             this.numeroTests -= 1;
-        } else if(this.numeroTests < 1){
+        } else if (this.numeroTests < 1) {
             sendTraceNote("No hay disponibilidad de Pruebas de Covid-19");
             msj("No hay disponibilidad de Pruebas de Covid-19");
             this.tests.add(0);
-            int probabilidad = ((int)(rnd.nextDouble() * 10 + 0));
+            int probabilidad = ((int) (rnd.nextDouble() * 10 + 0));
             if (probabilidad >= 7) {
                 sendTraceNote("Paciente Fallece por falta de tests");
                 msj("aciente Fallece por falta de tests");
@@ -161,9 +167,9 @@ public class Hospital extends Model {
 
     private void generarTest() {
         Random rnd = new Random();
-        int probabilidad = ((int)(rnd.nextDouble() * 10 + 0));
-        if (probabilidad >= 7) {
-            sendTraceNote("El hospital ha recibido nuevos tests, cantidad: "+(probabilidad*5));
+        int probabilidad = ((int) (rnd.nextDouble() * 10 + 0));
+        if (probabilidad > 7) {
+            sendTraceNote("El hospital ha recibido nuevos tests, cantidad: " + (probabilidad * 5));
             this.numeroTests = probabilidad * 5;
             this.tests.add(this.numeroTests);
         } else {
@@ -172,13 +178,13 @@ public class Hospital extends Model {
 
     }
 
-    public void tipos(){
+    public void tipos() {
         Random rnd = new Random();
-        int probabilidad = ((int)(rnd.nextDouble() * 10 + 0));
-        if(probabilidad < 5) {
+        int probabilidad = ((int) (rnd.nextDouble() * 10 + 0));
+        if (probabilidad < 5) {
             tipo.add("Mujer");
         }
-        if(probabilidad >= 5 && probabilidad <8) {
+        if (probabilidad >= 5 && probabilidad < 8) {
             tipo.add("Hombre");
         } else if (probabilidad >= 8) {
             tipo.add("Niños");
